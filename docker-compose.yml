@@ -1,0 +1,16 @@
+services:
+  ecoflow-bot:
+    build: .
+    container_name: ecoflow-bot
+    environment:
+      - ECOFLOW_EMAIL=EMAILADRESSE
+      - ECOFLOW_PASSWORD=PASSWORD
+      - HEALTHCHECK_URL=HELTHCHECKURL
+      - HEALTHCHECK_INTERVAL_MIN=5
+    volumes:
+      - ecoflow-bot:/app
+    restart: unless-stopped
+
+volumes:
+  ecoflow-bot:
+    external: true
