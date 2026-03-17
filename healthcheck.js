@@ -18,14 +18,10 @@ async function triggerHealthcheck() {
     return;
   }
 
-  try {
-    const session = JSON.parse(fs.readFileSync(SESSION_FILE, 'utf8'));
-    if (!session?.cookies?.length) {
-      console.log("Session leer oder ungültig – Healthcheck übersprungen");
-      return;
-    }
-  } catch {
-    console.log("Session nicht lesbar – Healthcheck übersprungen");
+  
+  const stats = fs.statSync(SESSION_FILE);
+  if (stats.size === 0) {
+    console.log("Session leer – Healthcheck übersprungen");
     return;
   }
 
@@ -38,5 +34,5 @@ async function triggerHealthcheck() {
 }
 
 console.log(`Healthcheck gestartet: ${URL} alle ${INTERVAL_MIN} Minuten`);
-triggerHealthcheck();
+triggerHealthcheck(); 
 setInterval(triggerHealthcheck, INTERVAL);
